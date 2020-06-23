@@ -38,7 +38,7 @@ python manage.py runserver 0.0.0.0:8080
 
 - monto_uf (decimal): ej: 28345,43
 - plazo (días): ej: 30
-- fecha (año-mes-día): ej: 2020-06-16
+- fecha (año-mes-día): ej: 2020-01-16
 
 
 ### Supuestos ⌨️
