@@ -27,8 +27,6 @@ def process(form):
     date_form = form.data['fecha']
     dt = datetime.strptime(date_form,'%Y-%m-%d')
     clean_date = dt.date()
-    d1 = datetime(2020, 6, 22)
-    d1_date = d1.date()
 
     baseUrl = 'http://api.sbif.cl/api-sbifv3/recursos_api/tmc/2020?apikey=9c84db4d447c80c74961a72245371245cb7ac15f&formato=xml'
     request = urllib.request.Request(baseUrl)
@@ -37,7 +35,8 @@ def process(form):
     rootElem = tree.getroot()
     newroot = rootElem[6]
     
-    flag = False
+    flag_fecha = False
+    flag_hasta = False
 
     for child in newroot:
         for newchild in child:
@@ -46,7 +45,9 @@ def process(form):
                 date_str = datetime.strptime(date_child, '%Y-%m-%d')
                 date = date_str.date()
                 if clean_date > date or clean_date == date :
-                    flag = True
+                    flag_fecha = True
+                else:
+                    flag_fecha = False
             
             if (newchild.tag == "{http://api.sbif.cl}Hasta"):
                 until_child = newchild.text
@@ -54,10 +55,14 @@ def process(form):
                     date_str = datetime.strptime(until_child, '%Y-%m-%d')
                     date = date_str.date()
                     if clean_date < date or clean_date == date :
-                        flag = True
+                        flag_hasta = True
+                    else:
+                        flag_hasta = False
+                else:
+                    flag_hasta = True
 
             if (newchild.tag == "{http://api.sbif.cl}Valor"):
-                if flag == True:
+                if flag_fecha == True and flag_hasta == True:
                     rate = newchild.text
                     global tmc_rate   
                     tmc_rate = rate
@@ -68,7 +73,7 @@ def process(form):
     float_rate = float(tmc_rate)
     parse_rate = (float_rate/100)
     simple_rate = parse_rate * int(plazo) * float(monto_uf)
-            
+
 
    
     
