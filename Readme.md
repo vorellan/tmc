@@ -43,7 +43,8 @@ python manage.py runserver 0.0.0.0:8080
 
 ### Supuestos ⌨️
 
-Una vez identificada la tmc correspondiente a la fecha se aplico una tasa de interés simple: Monto x tmc x días
+- Una vez identificada la tmc correspondiente a la fecha se aplico una tasa de interés simple: Monto x tmc x días
+- Se asume el ultimo valor para fechas superiores a 2020-06-16, dado que hay muchos valores para ella, y todos sin fecha limite
 
 
 Saludos 🤓.
